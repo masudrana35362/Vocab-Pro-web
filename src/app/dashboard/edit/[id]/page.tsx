@@ -64,6 +64,8 @@ export default function EditWordPage({ params }: { params: Promise<{ id: string 
     setIsMagicFilling(true);
     
     try {
+      // 1. Fetch English Definition, POS, Example, and Synonyms
+      let collectedSynonyms: string[] = [];
       const data = await fetchWordDefinition(word.trim());
       if (data && data.meanings && data.meanings.length > 0) {
         const firstMeaning = data.meanings[0];
@@ -71,8 +73,8 @@ export default function EditWordPage({ params }: { params: Promise<{ id: string 
         
         setMeaning(firstDef.definition || "");
         
+        // Deep search for an example across all meanings and definitions
         let foundExample = "";
-        let collectedSynonyms: string[] = [];
 
         for (const m of data.meanings) {
           if (m.synonyms && m.synonyms.length > 0) {

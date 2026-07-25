@@ -1,6 +1,5 @@
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "./config";
-import { v4 as uuidv4 } from "uuid";
 
 // Note: Next.js edge runtime doesn't support the full uuid package well sometimes,
 // but for standard client-side usage, a simple random string generator works too.
