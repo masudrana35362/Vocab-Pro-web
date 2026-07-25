@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { fetchWordDefinition, fetchBanglaTranslation, fetchSynonyms } from "@/lib/dictionary";
 import { addWord } from "@/lib/firebase/firestore";
+import { generateExampleSentence } from "@/app/actions/ai";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -87,12 +88,19 @@ export default function AddWordPage() {
       setIsMagicFilling(false);
     }
   };
-
   const handleAiContext = async () => {
     if (!word.trim()) return;
     setIsAiGenerating(true);
     
     try {
+      const generatedSentence = await generateExampleSentence(word.trim());
+      if (generatedSentence) {
+        setExample(generatedSentence);
+        setIsAiGenerating(false);
+        return;
+      }
+      
+      // Fallback to dictionary if AI generation fails or key is missing
       const data = await fetchWordDefinition(word.trim());
       if (data && data.meanings) {
         for (const m of data.meanings) {
@@ -143,7 +151,7 @@ export default function AddWordPage() {
     
     try {
       await addWord(user.uid, {
-        word: word.trim(),
+        word: word.trim().charAt(0).toUpperCase() + word.trim().slice(1),
         meaning: meaning.trim(),
         banglaMeaning: banglaMeaning.trim(),
         example: example.trim(),
