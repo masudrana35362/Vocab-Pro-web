@@ -8,6 +8,7 @@ export interface DictionaryEntry {
     definitions: {
       definition: string;
       example?: string;
+      synonyms?: string[];
     }[];
     synonyms: string[];
   }[];
