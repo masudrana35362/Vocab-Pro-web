@@ -6,6 +6,15 @@ import { getWord, deleteWord, Word } from "@/lib/firebase/firestore";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
+const formatDate = (timestamp: any) => {
+  if (!timestamp) return "N/A";
+  // Handle Firestore Timestamp, serialized Timestamp, or string/Date
+  const date = typeof timestamp.toDate === 'function' 
+    ? timestamp.toDate() 
+    : (timestamp.seconds ? new Date(timestamp.seconds * 1000) : new Date(timestamp));
+  return isNaN(date.getTime()) ? "N/A" : date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+};
+
 export default function WordDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const unwrappedParams = use(params);
   const { id } = unwrappedParams;
@@ -191,13 +200,13 @@ export default function WordDetailsPage({ params }: { params: Promise<{ id: stri
                   <div>
                     <p className="text-xs text-gray-500 dark:text-gray-400">Added On</p>
                     <p className="font-semibold text-gray-900 dark:text-white">
-                      {word.createdAt?.toDate() ? word.createdAt.toDate().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : "N/A"}
+                      {formatDate(word.createdAt)}
                     </p>
                   </div>
                   <div>
                     <p className="text-xs text-gray-500 dark:text-gray-400">Next Review</p>
                     <p className="font-semibold text-gray-900 dark:text-white">
-                      {word.srs?.nextReview?.toDate() ? word.srs.nextReview.toDate().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : "N/A"}
+                      {formatDate(word.srs?.nextReview)}
                     </p>
                   </div>
                   <div>

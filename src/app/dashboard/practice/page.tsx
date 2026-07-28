@@ -33,6 +33,38 @@ export default function PracticeHubPage() {
       icon: "✍️",
       href: "/dashboard/practice/fill-in-blanks",
       color: "bg-teal-500",
+    },
+    {
+      id: "pomodoro",
+      title: "Focus Session",
+      description: "25-minute deep learning with Pomodoro timer.",
+      icon: "⏱️",
+      href: "/dashboard/practice/pomodoro",
+      color: "bg-red-500",
+    },
+    {
+      id: "pronunciation",
+      title: "Pronunciation Coach",
+      description: "Speak and receive instant feedback.",
+      icon: "🎙️",
+      href: "/dashboard/practice/pronunciation",
+      color: "bg-pink-500",
+    },
+    {
+      id: "sentence",
+      title: "Sentence Builder",
+      description: "Drag and drop words to form sentences.",
+      icon: "🧩",
+      href: "/dashboard/practice/sentence",
+      color: "bg-orange-500",
+    },
+    {
+      id: "listening",
+      title: "Listening Comprehension",
+      description: "Listen to sentences and transcribe them.",
+      icon: "🎧",
+      href: "/dashboard/practice/listening",
+      color: "bg-indigo-500",
     }
   ];
 
