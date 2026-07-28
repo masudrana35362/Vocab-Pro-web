@@ -29,7 +29,17 @@ export default function RegisterPage() {
       // AuthContext will handle the Firestore document creation via onAuthStateChanged
       router.push("/dashboard");
     } catch (err: any) {
-      setError(err.message || "Failed to sign up");
+      let errorMessage = "Failed to sign up. Please try again.";
+      if (err.code === "auth/email-already-in-use") {
+        errorMessage = "An account with this email already exists. Try signing in with Google or resetting your password.";
+      } else if (err.code === "auth/invalid-email") {
+        errorMessage = "Please enter a valid email address.";
+      } else if (err.code === "auth/weak-password") {
+        errorMessage = "Password should be at least 6 characters.";
+      } else if (err.message) {
+        errorMessage = err.message.replace("Firebase: ", "");
+      }
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }

@@ -24,7 +24,15 @@ export default function LoginPage() {
       await signInWithEmailAndPassword(auth, email, password);
       router.push("/dashboard");
     } catch (err: any) {
-      setError(err.message || "Failed to sign in");
+      let errorMessage = "Failed to sign in. Please try again.";
+      if (err.code === "auth/invalid-credential" || err.code === "auth/user-not-found" || err.code === "auth/wrong-password") {
+        errorMessage = "Invalid email or password. Please try again.";
+      } else if (err.code === "auth/too-many-requests") {
+        errorMessage = "Too many failed attempts. Please try again later.";
+      } else if (err.message) {
+        errorMessage = err.message.replace("Firebase: ", "");
+      }
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
