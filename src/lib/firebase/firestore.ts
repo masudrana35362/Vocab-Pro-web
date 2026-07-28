@@ -2,6 +2,7 @@ import { collection, doc, setDoc, getDoc, getDocs, query, where, Timestamp, orde
 import { db } from "./config";
 
 import { UserProfile, Word, UserSettings, SRSData } from "@/types";
+export type { UserProfile, Word, UserSettings, SRSData };
 
 // --- Firestore Helpers ---
 
